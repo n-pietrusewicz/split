@@ -1,13 +1,31 @@
-saving_rate1 = int(input("Person 1: How much per month? "))
-saving_rate2 = int(input("Person 2: How much per month? "))
-yearly_rate = float(input("What is the interest rate of your acct? "))
+from math import log
+from os import system
+from time import sleep
 
-monthly_rate = (yearly_rate / 12)
+print("T")
+sleep(2.2)
+system('cls')
+c1 = float(input("Person 1: How much are you going to save? $"))
+c2 = float(input("Person 2: How much are you going to save? $"))
+n = float(input("Goal (in months) to save? "))
+int_rate = float(input("Annual interest rate (%)? "))
 
-print(f"Your monthly rate is: {monthly_rate}%...")
-saving_time = int(input("How long do you intend to save for (in months)? "))
+# FORMULAS (move into another file)
+SAVING_RATE = (c1 + c2) * n
+MONTHLY_INTEREST = int_rate / (12 * 100)
+COMPOUNDING_INTEREST = (c1 + c2) * ((1 + MONTHLY_INTEREST)**n - 1) / MONTHLY_INTEREST
+RS_BAL = log(1 + (COMPOUNDING_INTEREST * MONTHLY_INTEREST / (c1 + c2))) / log(1 + MONTHLY_INTEREST)
 
-calculated_savings = (saving_rate1 + saving_rate2) * saving_time
-to_string = str(calculated_savings)
+print(f"""
+        Person 1 savings (per month):\t${c1}
+        Person 2 savings (per month):\t${c2}\n
+        INTEREST
+        -------
+        Yearly interest rate:\t{int_rate}%
+        Which works out to\t{MONTHLY_INTEREST:,.4f}% per month.\n
 
-print(f"In {saving_time} months, you should save ${to_string}")
+        In {n:,.0f} months, you will save:
+        Without interest:\t${SAVING_RATE:,.2f}
+        With interest:\t${COMPOUNDING_INTEREST:,.2f}
+
+      """)
